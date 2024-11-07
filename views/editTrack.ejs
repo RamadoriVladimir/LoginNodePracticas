@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><%= track.id ? 'Edit' : 'Add' %> Track</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="navbar navbar-dark sticky-top bg-primary flex-md-nowrap p-0 shadow">
+        <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">Track Management</a>
+        <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="navbar-nav">
+            <div class="nav-item text-nowrap">
+                <a type="button" class="px-3 btn btn-danger" href="/login">Logout</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container-fluid">
+        <div class="row">
+            <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-primary sidebar collapse">
+                <div class="position-sticky pt-3">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/albums">Manage Albums</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/albums/new">Add New Album</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/tracks">Manage Tracks</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/tracks/new">Add New Track</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2"><%= track.id ? 'Edit' : 'Add' %> Track</h1>
+                </div>
+
+                <!-- Formulario para agregar o editar -->
+                <form action="<%= track.id ? `/tracks/${track.id}` : '/tracks' %>" method="POST" enctype="multipart/form-data">
+                    <% if (track.id) { %>
+                        <input type="hidden" name="_method" value="PUT"> <!-- Indicar método PUT para editar -->
+                    <% } %>
+
+                    <div class="mb-3">
+                        <label for="track_name" class="form-label">Track Name</label>
+                        <input type="text" class="form-control" id="track_name" name="track_name" value="<%= track.track_name || '' %>" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="album_id" class="form-label">Album</label>
+                        <select class="form-control" id="album_id" name="album_id" required>
+                            <option value="" disabled <%= track.album_id ? '' : 'selected' %>>Select Album</option>
+                            <% albums.forEach(album => { %>
+                                <option value="<%= album.id %>" <%= track.album_id === album.id ? 'selected' : '' %>><%= album.album_name %></option>
+                            <% }) %>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="image_file" class="form-label">Image File</label>
+                        <input type="file" class="form-control" id="image_file" name="image_file" accept="image/*" />
+                        <% if (track.image_path) { %>
+                            <small class="form-text text-muted">Current image: <%= track.image_path %></small>
+                        <% } %>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="audio_file" class="form-label">Audio File</label>
+                        <input type="file" class="form-control" id="audio_file" name="audio" accept="audio/*" <% if (track.audio_path) { %> required <% } %> />
+                        <% if (track.audio_path) { %>
+                            <small class="form-text text-muted">Current audio: <%= track.audio_path %></small>
+                        <% } %>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="duration" class="form-label">Duration (in seconds)</label>
+                        <input type="number" class="form-control" id="duration" name="duration" value="<%= track.duration || '' %>" required>
+                    </div>
+
+                    <a href="/" class="btn btn-secondary mb-3">Back to Index</a>
+
+                    <button type="submit" class="btn btn-primary"><%= track.id ? 'Update' : 'Add' %> Track</button>
+                </form>
+            </main>
+        </div>
+    </div>
+
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Track List</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="navbar navbar-dark sticky-top bg-primary flex-md-nowrap p-0 shadow">
+        <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">Track Management</a>
+        <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="navbar-nav">
+            <div class="nav-item text-nowrap">
+                <a type="button" class="px-3 btn btn-danger" href="/login">Logout</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container-fluid">
+        <div class="row">
+            <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-primary sidebar collapse">
+                <div class="position-sticky pt-3">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/albums">
+                                <span data-feather="list"></span>
+                                Manage Albums
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/albums/new">
+                                <span data-feather="plus-circle"></span>
+                                Add New Album
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/tracks">
+                                <span data-feather="list"></span>
+                                Manage Tracks
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/tracks/new">
+                                <span data-feather="plus-circle"></span>
+                                Add New Track
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Track List</h1>
+                </div>
+
+                <a href="/tracks/new" class="btn btn-primary mb-3">Add New Track</a>
+                <a href="/" class="btn btn-secondary mb-3">Back to Index</a>
+
+                <ul class="list-group">
+                    <% tracks.forEach(track => { %>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <%= track.track_name %>
+                            <div>
+                                <a href="/tracks/<%= track.id %>/edit" class="btn btn-warning btn-sm">Edit</a>
+                                <form action="/tracks/<%= track.id %>?_method=DELETE" method="POST" style="display:inline;">
+                                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                </form>
+                            </div>
+                        </li>
+                    <% }) %>
+                </ul>
+            </main>
+        </div>
+    </div>
+
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js"></script>
+</body>
+</html>
