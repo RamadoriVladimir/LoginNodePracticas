@@ -1,2 +1,2 @@
 # LoginNodePracticas
-Login con node jwt y multer para la subida de archivos. Falta implementar en el front y los metodos el que se muestren los archivos
+Login con node jwt y multer para la subida de archivos. Falta implementar que se muestre la subida de archivos
