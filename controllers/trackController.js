@@ -74,14 +74,14 @@ exports.saveTrack = async (req, res) => {
     try {
         const { track_name, album_id, duration } = req.body;
         const image_path = req.file ? req.file.path : null; 
-        const audio_path = req.files ? req.files.audio[0].path : null; // Suponiendo que estás cargando múltiples archivos de audio
+        const audio_path = req.files ? req.files.audio[0].path : null; 
 
         // Verificar que todos los campos necesarios estén presentes
         if (!track_name || !album_id || !duration || !image_path || !audio_path) {
             return res.status(400).json({ error: 'Todos los campos son necesarios' });
         }
 
-        await Track.add(track_name, album_id, duration, image_path, audio_path); // Aquí se llama el método add modificado
+        await Track.add(track_name, album_id, duration, image_path, audio_path); 
 
         res.redirect('/tracks');
     } catch (error) {
